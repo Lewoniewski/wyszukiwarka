@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+  <meta charset="utf-8">
+  <title>{title}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Społeczność akademicka ;)">
+  <link rel="stylesheet" href="/statyczne/style.css">
+</head>
+
+<body>
+ <h1>{title}</h1>
+
+
+<!-- Resources AmCharts -->
+<script src="/statyczne/index.js"></script>
+<script src="/statyczne/wc.js"></script>
+<script src="/statyczne/Animated.js"></script>
+
+<!-- Resources ECharts -->
+<script src="/statyczne/echarts.min.js"></script>
+
+<!-- Więcej, Mniej -->
+<script>
+function wiecejMniej() {
+  var dots = document.getElementById("dots");
+  var moreText = document.getElementById("more");
+  var btnText = document.getElementById("guzikWiecej");
+
+  if (dots.style.display === "none") {
+    dots.style.display = "inline";
+    btnText.innerHTML = "Więcej &rarr;";
+    moreText.style.display = "none";
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "&larr; Mniej";
+    moreText.style.display = "inline";
+  }
+} 
+</script>
+
+<!-- Chart code -->
+<script>
+am5.ready(function() {
+
+// Create root element
+// https://www.amcharts.com/docs/v5/getting-started/#Root_element
+var root = am5.Root.new("chartdiv");
+
+
+// Set themes
+// https://www.amcharts.com/docs/v5/concepts/themes/
+root.setThemes([
+  am5themes_Animated.new(root)
+]);
+
+let series = root.container.children.push(am5wc.WordCloud.new(root, {
+  categoryField: "tag",
+  valueField: "weight",
+  fillField: "color"
+}));
+
+series.labels.template.events.on("click", function(ev) {
+  const tag = ev.target.dataItem.get("category");
+  window.open("https://pl.wiktionary.org/wiki/" + encodeURIComponent(tag));
+});
+
+// Add series
+// https://www.amcharts.com/docs/v5/charts/word-cloud/
+series.data.setAll({!dane!});
+
+
+// Configure labels
+series.labels.template.setAll({
+  paddingTop: 5,
+  paddingBottom: 5,
+  paddingLeft: 5,
+  paddingRight: 5,
+  fontFamily: "Arial",
+  cursorOverStyle: "pointer",
+tooltipText: "{tag}: [bold]{value}[/]"
+});
+
+
+
+}); // end am5.ready()
+
+
+
+
+
+</script>
+
+
+{tresc}
+<div id="chartdiv"></div>
+
+
+
+<div id="globb" style="height:600px; width:49%; float:left"></div>
+
+
+<script>
+ var echart10 = echarts.init(document.getElementById('globb'));
+option = {
+  title: {
+    text: 'Części mowy',
+    subtext: '',
+    left: 'center'
+  },
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    orient: 'vertical',
+    left: 'right'
+  },
+  series: [
+    {
+      name: 'Liczba tokenów',
+      type: 'pie',
+      radius: ['15%','70%'],
+      data: {!dane2!},
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 10,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      }
+    }
+  ]
+};
+ echart10.setOption(option);
+</script>
+
+
+
+
+
+<div style="clear:both;"></div>
+
+{tabela}
+
+<div class="back"><a href="/">&larr; Strona główna</a></div>
+<div class="ramka">&copy; 2022 System Wyszukiwawczy (wersja {ver})</div>
+
+
+</body>
+</html>

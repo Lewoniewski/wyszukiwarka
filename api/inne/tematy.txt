@@ -1,0 +1,8 @@
+gry	videogame
+filmy	film
+książki	book
+seriale	tvseries
+książek	book
+gier	videogame
+seriali	tvseries
+filmów	film
